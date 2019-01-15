@@ -34,6 +34,9 @@ on early-init
     chown root system /dev/kmsg
     chmod 0620 /dev/kmsg
 
+    # zram setup
+    write /proc/sys/vm/page-cluster 0
+
 on init
     # Set permissions for persist partition
     mkdir /persist 0771 root system
@@ -225,7 +228,6 @@ on boot
     # Update foreground cpuset now that processors are up
     # reserve CPU 3 for the top app and camera daemon
     write /dev/cpuset/foreground/cpus 0-2,4-5
-    write /dev/cpuset/foreground/boost/cpus 4-5
     write /dev/cpuset/background/cpus 0
     write /dev/cpuset/system-background/cpus 0-2
     write /dev/cpuset/top-app/cpus 0-5
